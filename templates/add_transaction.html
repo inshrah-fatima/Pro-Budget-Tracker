@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card form-container">
+    <h2>Add New Transaction</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label>Type</label>
+            <select name="type" required>
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Amount ({{ currency }})</label>
+            <input type="number" step="0.01" name="amount" required>
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <input type="text" name="category" placeholder="e.g., Food, Salary" required>
+        </div>
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" name="date" required>
+        </div>
+        <div class="form-group">
+            <label>Payment Method</label>
+            <select name="payment_type" required>
+                <option value="Cash">Cash</option>
+                <option value="Card">Card</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Transaction</button>
+    </form>
+</div>
+{% endblock %}

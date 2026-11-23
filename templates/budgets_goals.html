@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid-container">
+    <!-- Budgets Section -->
+    <div class="card">
+        <h2>Budget Limits</h2>
+        <div class="budget-list" style="margin-bottom: 20px;">
+            {% for cat, data in budgets.items() %}
+            <div class="budget-item" style="margin-bottom:15px;">
+                <div class="budget-header">
+                    <strong>{{ cat }}</strong>
+                    <span>{{ data.spent }} / {{ data.limit }} {{ currency }}</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar {% if data.percentage >= 100 %}bg-danger{% elif data.percentage >= 80 %}bg-warning{% else %}bg-success{% endif %}" 
+                         style="width: {{ data.percentage }}%;">
+                        {{ data.percentage }}%
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p>No budgets set.</p>
+            {% endfor %}
+        </div>
+        <hr>
+        <h4 style="margin-top:15px;">Set New Budget</h4>
+        <form method="POST">
+            <input type="hidden" name="action" value="add_budget">
+            <div class="form-group"><input type="text" name="category" placeholder="Category Name" required></div>
+            <div class="form-group"><input type="number" name="limit" placeholder="Monthly Limit" required></div>
+            <button type="submit" class="btn btn-primary">Set Budget</button>
+        </form>
+    </div>
+
+    <!-- Goals Section -->
+    <div class="card">
+        <h2>Savings Goals</h2>
+        <div class="budget-list" style="margin-bottom: 20px;">
+            {% for goal in goals %}
+            <div class="budget-item" style="margin-bottom:15px;">
+                <div class="budget-header">
+                    <strong>{{ goal.name }}</strong>
+                    <span>{{ goal.saved }} / {{ goal.target }} {{ currency }}</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar bg-info" style="width: {{ goal.percentage }}%;">
+                        {{ goal.percentage|round(1) }}%
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p>No goals set.</p>
+            {% endfor %}
+        </div>
+        <hr>
+        <h4 style="margin-top:15px;">Add New Goal</h4>
+        <form method="POST">
+            <input type="hidden" name="action" value="add_goal">
+            <div class="form-group"><input type="text" name="name" placeholder="Goal Name (e.g. Car)" required></div>
+            <div class="form-group"><input type="number" name="target" placeholder="Target Amount" required></div>
+            <div class="form-group"><input type="number" name="saved" placeholder="Already Saved (Optional)" value="0"></div>
+            <button type="submit" class="btn btn-primary">Add Goal</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
